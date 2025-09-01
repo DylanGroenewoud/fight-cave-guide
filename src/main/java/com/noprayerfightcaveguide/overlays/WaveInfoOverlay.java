@@ -1,7 +1,8 @@
 package com.noprayerfightcaveguide.overlays;
 
 import com.noprayerfightcaveguide.FightCaveWave;
-import com.noprayerfightcaveguide.FightCaveWaveData;
+import com.noprayerfightcaveguide.data.RegularWaveData;
+import com.noprayerfightcaveguide.data.SpeedrunWaveData;
 import com.noprayerfightcaveguide.NoPrayerFightCaveGuidePlugin;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
@@ -12,6 +13,7 @@ import javax.inject.Inject;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class WaveInfoOverlay extends OverlayPanel
@@ -38,7 +40,12 @@ public class WaveInfoOverlay extends OverlayPanel
         panelComponent.getChildren().clear();
 
         int currentWaveNum = plugin.getCurrentWave();
-        FightCaveWave currentWave = FightCaveWaveData.waveTileMap.get(currentWaveNum);
+
+        Map<Integer, FightCaveWave> waveMapping = plugin.isSpeedrunMode()
+                ? SpeedrunWaveData.waveTileMap
+                : RegularWaveData.waveTileMap;
+
+        FightCaveWave currentWave = waveMapping.get(currentWaveNum);
 
         List<ColoredText> waveTexts = new ArrayList<>();
         waveTexts.add(new ColoredText("Current wave: " + currentWaveNum, Color.WHITE));

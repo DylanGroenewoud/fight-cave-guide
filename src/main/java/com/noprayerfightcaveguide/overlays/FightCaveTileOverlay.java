@@ -2,9 +2,11 @@ package com.noprayerfightcaveguide.overlays;
 
 import javax.inject.Inject;
 
-import com.noprayerfightcaveguide.NoPrayerFightCaveGuidePlugin;
 import com.noprayerfightcaveguide.FightCaveWave;
+import com.noprayerfightcaveguide.NoPrayerFightCaveGuidePlugin;
 import com.noprayerfightcaveguide.ShortestPathFinder;
+import com.noprayerfightcaveguide.data.RegularWaveData;
+import com.noprayerfightcaveguide.data.SpeedrunWaveData;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.client.ui.overlay.OverlayPanel;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -15,8 +17,6 @@ import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.Client;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.Perspective;
-
-import static com.noprayerfightcaveguide.FightCaveWaveData.waveTileMap;
 
 import java.util.*;
 import java.awt.*;
@@ -50,7 +50,11 @@ public class FightCaveTileOverlay extends OverlayPanel {
         int plane = client.getPlane();
         CollisionData collisionData = client.getCollisionMaps()[plane];
 
-        FightCaveWave currentWave = waveTileMap.get(plugin.getCurrentWave());
+        Map<Integer, FightCaveWave> waveMapping = plugin.isSpeedrunMode()
+                ? SpeedrunWaveData.waveTileMap
+                : RegularWaveData.waveTileMap;
+
+        FightCaveWave currentWave = waveMapping.get(plugin.getCurrentWave());
 
         // Draw the current wave
         if (currentWave != null) {
@@ -61,7 +65,7 @@ public class FightCaveTileOverlay extends OverlayPanel {
         }
 
         // Draw the next wave
-        FightCaveWave nextWave = waveTileMap.get(plugin.getCurrentWave() + 1);
+        FightCaveWave nextWave = waveMapping.get(plugin.getCurrentWave() + 1);
         if (nextWave != null) {
             List<Point> nextWaveCoords = nextWave.getCoords();
             if (nextWaveCoords.size() > 1) {

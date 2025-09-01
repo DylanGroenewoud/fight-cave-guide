@@ -1,5 +1,6 @@
 package com.noprayerfightcaveguide;
 
+import com.noprayerfightcaveguide.config.PluginConfig;
 import com.noprayerfightcaveguide.overlays.FightCaveTileOverlay;
 import com.noprayerfightcaveguide.overlays.StatusOverlay;
 import com.noprayerfightcaveguide.overlays.WaveInfoOverlay;
@@ -47,7 +48,7 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 	private WaveInfoOverlay waveInfoOverlay;
 
 	@Inject
-	private WaveConfig waveConfig;
+	private PluginConfig config;
 
 	@Getter
     private int currentWave;
@@ -62,10 +63,17 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 	@Override
 	protected void startUp()
 	{
-		currentWave = waveConfig.waveNumber();
+		currentWave = config.waveNumber();
 		overlayManager.add(fightCaveTileOverlay);
 		overlayManager.add(statusOverlay);
 		overlayManager.add(waveInfoOverlay);
+	}
+
+	@Override
+	protected void shutDown() {
+		overlayManager.remove(fightCaveTileOverlay);
+		overlayManager.remove(statusOverlay);
+		overlayManager.remove(waveInfoOverlay);
 	}
 
     public boolean isFightCavesActive()
@@ -79,10 +87,14 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 		return client.getVarpValue(172) == 0;
 	}
 
+	public boolean isSpeedrunMode() {
+		return config.speedrunMode();
+	}
+
 	private void resetWave()
 	{
 		currentWave = 1;
-		waveConfig.setWaveNumber(1);
+		config.setWaveNumber(1);
 	}
 
 	@Subscribe
@@ -90,7 +102,7 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 	{
 		if (event.getGameState() == GameState.LOGGED_IN && isFightCavesActive())
 		{
-			currentWave = waveConfig.waveNumber();
+			currentWave = config.waveNumber();
 			logoutRequested = false;
 		}
 	}
@@ -122,14 +134,14 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 	@Subscribe
 	public void onConfigChanged(ConfigChanged event)
 	{
-		if (!event.getGroup().equals("wave"))
+		if (!event.getGroup().equals("noprayerfightcaveguide"))
 		{
 			return;
 		}
 
 		if (event.getKey().equals("waveNumber"))
 		{
-			currentWave = waveConfig.waveNumber();
+			currentWave = config.waveNumber();
 		}
 	}
 
@@ -150,7 +162,7 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 			}
 
 			currentWave = parsedWave;
-			waveConfig.setWaveNumber(currentWave);
+			config.setWaveNumber(currentWave);
 		}
 	}
 
@@ -172,14 +184,14 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 			if (isLogoutRequested()) {
 				int nextWave = currentWave + 1;
 				currentWave = nextWave;
-				waveConfig.setWaveNumber(nextWave);
+				config.setWaveNumber(nextWave);
 			}
 		}
 	}
 
 	@Provides
-	WaveConfig provideConfig(ConfigManager configManager)
+	PluginConfig provideConfig(ConfigManager configManager)
 	{
-		return configManager.getConfig(WaveConfig.class);
+		return configManager.getConfig(PluginConfig.class);
 	}
 }

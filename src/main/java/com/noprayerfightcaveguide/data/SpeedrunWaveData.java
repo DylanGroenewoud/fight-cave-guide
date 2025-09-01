@@ -1,10 +1,12 @@
-package com.noprayerfightcaveguide;
+package com.noprayerfightcaveguide.data;
+
+import com.noprayerfightcaveguide.FightCaveWave;
 
 import java.util.*;
 import java.awt.*;
 import java.util.List;
 
-public class FightCaveWaveData {
+public class SpeedrunWaveData {
     public static final Map<Integer, FightCaveWave> waveTileMap = new HashMap<>();
 
     static {
@@ -98,7 +100,7 @@ public class FightCaveWaveData {
                 .build());
 
         waveTileMap.put(19, new FightCaveWave.Builder(
-                List.of(new Point(2384, 5106), new Point(2391, 5106), new Point(2391, 5106), new Point(2384, 5103)))
+                List.of(new Point(2384, 5106), new Point(2391, 5106), new Point(2384, 5103)))
                 .build());
 
         waveTileMap.put(20, new FightCaveWave.Builder(
@@ -215,7 +217,7 @@ public class FightCaveWaveData {
         waveTileMap.put(35, new FightCaveWave.Builder(
                 List.of(
                         new Point(2407, 5088),
-                        new Point(2407, 5076),
+                        new Point(2407, 5070),
                         new Point(2384, 5076)
                 ))
                 .requiresAutoRetaliate()
@@ -333,7 +335,7 @@ public class FightCaveWaveData {
         waveTileMap.put(45, new FightCaveWave.Builder(
                 List.of(
                         new Point(2422, 5117),
-                        new Point(2414, 5104),
+                        new Point(2416, 5107),
                         new Point(2404, 5117),
                         new Point(2404, 5106),
                         new Point(2399, 5095)
@@ -381,7 +383,9 @@ public class FightCaveWaveData {
         waveTileMap.put(49, new FightCaveWave.Builder(
                 List.of(
                         new Point(2400, 5088),
-                        new Point(2384, 5100)
+                        new Point(2384, 5100),
+                        new Point(2372, 5098),
+                        new Point(2384, 5095)
                 ))
                 .currentWaveMessages(List.of(
                         "Blowpipe spec the 45, block 180 with 22s"
