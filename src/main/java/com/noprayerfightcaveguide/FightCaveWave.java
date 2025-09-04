@@ -16,6 +16,9 @@ public class FightCaveWave {
     @Getter
     private final List<String> nextWaveMessages;
 
+    @Getter
+    private final List<KillTarget> killOrder;
+
     private final boolean requiresLogout;
     private final boolean requiresAutoRetaliate;
 
@@ -25,6 +28,7 @@ public class FightCaveWave {
         this.nextWaveMessages = builder.nextWaveMessages != null ? builder.nextWaveMessages : Collections.emptyList();
         this.requiresLogout = builder.requiresLogout;
         this.requiresAutoRetaliate = builder.requiresAutoRetaliate;
+        this.killOrder = builder.killOrder != null ? builder.killOrder : Collections.emptyList(); // initialize
     }
 
     public boolean requiresLogout() { return requiresLogout; }
@@ -36,6 +40,7 @@ public class FightCaveWave {
         private List<String> nextWaveMessages;
         private boolean requiresLogout = false;
         private boolean requiresAutoRetaliate = false;
+        private List<KillTarget> killOrder;
 
         public Builder(List<Point> coords) {
             this.coords = coords;
@@ -58,6 +63,11 @@ public class FightCaveWave {
 
         public Builder requiresAutoRetaliate() {
             this.requiresAutoRetaliate = true;
+            return this;
+        }
+
+        public Builder killOrder(List<KillTarget> killOrder) {
+            this.killOrder = killOrder;
             return this;
         }
 

@@ -5,6 +5,8 @@ import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.Range;
 
+import java.awt.*;
+
 @ConfigGroup("noprayerfightcaveguide")
 public interface PluginConfig extends Config
 {
@@ -13,7 +15,7 @@ public interface PluginConfig extends Config
 			name = "Speedrun mode",
 			description = "Switch to speedrun wave mapping"
 	)
-	default boolean speedrunMode() { return true; }
+	default boolean speedrunMode() { return false; }
 
 	@ConfigItem(
 			keyName = "waveNumber",
@@ -27,10 +29,13 @@ public interface PluginConfig extends Config
 	default int waveNumber() { return 1; }
 
 	@ConfigItem(
-			keyName = "waveNumber",
-			name = "Wave",
-			description = "The current fight cave wave"
+			keyName = "npcOutlineColor",
+			name = "NPC Outline Color",
+			description = "Color used to highlight NPCs in the kill order overlay"
 	)
-	void setWaveNumber(int wave);
+	default Color npcOutlineColor()
+	{
+		return new Color(19, 158, 224);
+	}
 }
 

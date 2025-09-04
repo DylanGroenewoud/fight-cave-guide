@@ -1,21 +1,19 @@
 package com.noprayerfightcaveguide;
 
 import com.noprayerfightcaveguide.config.PluginConfig;
+import com.noprayerfightcaveguide.overlays.FightCaveNpcKillOrderOverlay;
 import com.noprayerfightcaveguide.overlays.FightCaveTileOverlay;
 import com.noprayerfightcaveguide.overlays.StatusOverlay;
 import com.noprayerfightcaveguide.overlays.WaveInfoOverlay;
 import lombok.Getter;
+import net.runelite.api.*;
+import net.runelite.api.events.*;
+import net.runelite.api.GameObject;
 import net.runelite.client.events.ConfigChanged;
 import org.apache.commons.lang3.ArrayUtils;
 import com.google.inject.Provides;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.ChatMessageType;
-import net.runelite.api.events.ChatMessage;
-import net.runelite.api.Client;
-import net.runelite.api.GameState;
-import net.runelite.api.events.GameTick;
-import net.runelite.api.events.GameStateChanged;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.util.Text;
 import net.runelite.client.config.ConfigManager;
@@ -23,6 +21,7 @@ import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,7 +38,13 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 	private OverlayManager overlayManager;
 
 	@Inject
+	private ConfigManager configManager;
+
+	@Inject
 	private FightCaveTileOverlay fightCaveTileOverlay;
+
+	@Inject
+	private FightCaveNpcKillOrderOverlay fightCaveNpcKillOrderOverlay;
 
 	@Inject
 	private StatusOverlay statusOverlay;
@@ -49,6 +54,10 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 
 	@Inject
 	private PluginConfig config;
+
+	@Getter
+	private GameObject entrance;
+	private static final int FIGHT_CAVES_ENTRANCE = 11833;
 
 	@Getter
     private int currentWave;
@@ -64,6 +73,7 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 	protected void startUp()
 	{
 		currentWave = config.waveNumber();
+		overlayManager.add(fightCaveNpcKillOrderOverlay);
 		overlayManager.add(fightCaveTileOverlay);
 		overlayManager.add(statusOverlay);
 		overlayManager.add(waveInfoOverlay);
@@ -71,6 +81,7 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 
 	@Override
 	protected void shutDown() {
+		overlayManager.remove(fightCaveNpcKillOrderOverlay);
 		overlayManager.remove(fightCaveTileOverlay);
 		overlayManager.remove(statusOverlay);
 		overlayManager.remove(waveInfoOverlay);
@@ -79,6 +90,11 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
     public boolean isFightCavesActive()
 	{
 		return ArrayUtils.contains(client.getTopLevelWorldView().getMapRegions(), 9551) && client.getTopLevelWorldView().isInstance();
+	}
+
+	public boolean isInTzhaarArea()
+	{
+		return ArrayUtils.contains(client.getTopLevelWorldView().getMapRegions(), 9808) && !client.getTopLevelWorldView().isInstance();
 	}
 
 	public boolean isAutoRetaliateActive()
@@ -94,17 +110,30 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 	private void resetWave()
 	{
 		currentWave = 1;
-		config.setWaveNumber(1);
+		configManager.setConfiguration(
+				"noprayerfightcaveguide",
+				"waveNumber",
+				1
+		);
 	}
 
 	@Subscribe
 	public void onGameStateChanged(GameStateChanged event)
 	{
-		if (event.getGameState() == GameState.LOGGED_IN && isFightCavesActive())
-		{
+		if (event.getGameState() == GameState.LOGGED_IN && isFightCavesActive()) {
 			currentWave = config.waveNumber();
 			logoutRequested = false;
 		}
+	}
+
+	@Subscribe
+	public void onGameObjectSpawned(GameObjectSpawned event)
+	{
+		if (!isInTzhaarArea())
+			return;
+
+		if (event.getGameObject().getId() == FIGHT_CAVES_ENTRANCE)
+			entrance = event.getGameObject();
 	}
 
 	@Subscribe
@@ -112,13 +141,10 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 	{
 		boolean currentlyInCave = isFightCavesActive();
 
-		if (currentlyInCave)
-		{
+		if (currentlyInCave) {
 			hasBeenInFightCaves = true;
 		}
-		else if (hasBeenInFightCaves)
-		{
-			// Player was inside the cave before, now left it
+		else if (hasBeenInFightCaves) {
 			resetWave();
 			hasBeenInFightCaves = false;
 		}
@@ -134,13 +160,11 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 	@Subscribe
 	public void onConfigChanged(ConfigChanged event)
 	{
-		if (!event.getGroup().equals("noprayerfightcaveguide"))
-		{
+		if (!event.getGroup().equals("noprayerfightcaveguide")) {
 			return;
 		}
 
-		if (event.getKey().equals("waveNumber"))
-		{
+		if (event.getKey().equals("waveNumber")) {
 			currentWave = config.waveNumber();
 		}
 	}
@@ -162,14 +186,18 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 			}
 
 			currentWave = parsedWave;
-			config.setWaveNumber(currentWave);
+
+			configManager.setConfiguration(
+					"noprayerfightcaveguide",
+					"waveNumber",
+					currentWave
+			);
 		}
 	}
 
 	private void handleLogoutRequest(ChatMessage event)
 	{
-		if (event.getType() != ChatMessageType.GAMEMESSAGE)
-		{
+		if (event.getType() != ChatMessageType.GAMEMESSAGE) {
 			return;
 		}
 
@@ -180,12 +208,15 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 		}
 
 		if (message.contains("The Fight Cave has been paused. You may now log out.")) {
+			int nextWave = currentWave + 1;
 
-			if (isLogoutRequested()) {
-				int nextWave = currentWave + 1;
-				currentWave = nextWave;
-				config.setWaveNumber(nextWave);
-			}
+			currentWave = nextWave;
+			configManager.setConfiguration(
+					"noprayerfightcaveguide",
+					"waveNumber",
+					nextWave
+			);
+
 		}
 	}
 

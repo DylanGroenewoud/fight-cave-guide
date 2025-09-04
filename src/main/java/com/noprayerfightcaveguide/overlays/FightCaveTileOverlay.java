@@ -8,16 +8,14 @@ import com.noprayerfightcaveguide.ShortestPathFinder;
 import com.noprayerfightcaveguide.data.RegularWaveData;
 import com.noprayerfightcaveguide.data.SpeedrunWaveData;
 import lombok.extern.slf4j.Slf4j;
+import net.runelite.api.*;
 import net.runelite.client.ui.overlay.OverlayPanel;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayLayer;
-import net.runelite.client.ui.overlay.OverlayPriority;
-import net.runelite.api.CollisionData;
 import net.runelite.api.coords.WorldPoint;
-import net.runelite.api.Client;
 import net.runelite.api.coords.LocalPoint;
-import net.runelite.api.Perspective;
 
+import java.awt.Point;
 import java.util.*;
 import java.awt.*;
 import java.util.List;
@@ -37,7 +35,6 @@ public class FightCaveTileOverlay extends OverlayPanel {
         this.shortestPathFinder = new ShortestPathFinder();
 
         setPosition(OverlayPosition.DYNAMIC);
-        setPriority(OverlayPriority.MED);
         setLayer(OverlayLayer.ABOVE_SCENE);
     }
 
@@ -73,7 +70,7 @@ public class FightCaveTileOverlay extends OverlayPanel {
             }
         }
 
-        return super.render(graphics);
+        return null;
     }
 
     private void drawWaveTiles(Graphics2D graphics, List<Point> coords, int plane) {

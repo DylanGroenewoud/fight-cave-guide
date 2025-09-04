@@ -233,7 +233,6 @@ public class SpeedrunWaveData {
                         new Point(2385, 5095),
                         new Point(2384, 5100)
                 ))
-                .requiresAutoRetaliate()
                 .build());
 
         waveTileMap.put(37, new FightCaveWave.Builder(
@@ -580,10 +579,5 @@ public class SpeedrunWaveData {
                         new Point(2410, 5079)
                 ))
                 .build());
-    }
-
-    public static FightCaveWave getWaveTiles(int wave)
-    {
-        return waveTileMap.get(wave);
     }
 }
