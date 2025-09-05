@@ -298,8 +298,8 @@ public class RegularWaveData {
                     new KillTarget(FightCaveNpcID.TZ_KEK_1),
                     new KillTarget(FightCaveNpcID.TZ_KEK_MINI),
                     new KillTarget(FightCaveNpcID.TZ_KEK_MINI),
-                    new KillTarget(FightCaveNpcID.YT_MEJKOT_1, 4),
-                    new KillTarget(FightCaveNpcID.TOK_XIL_1, 5)
+                    new KillTarget(FightCaveNpcID.YT_MEJKOT_1, 2),
+                    new KillTarget(FightCaveNpcID.TOK_XIL_1, 3)
                 ))
                 .build());
 
@@ -572,7 +572,7 @@ public class RegularWaveData {
                     new KillTarget(FightCaveNpcID.TZ_KEK_MINI, 2),
                     new KillTarget(FightCaveNpcID.TZ_KIH_1, 2),
                     new KillTarget(FightCaveNpcID.TOK_XIL_1, 3),
-                    new KillTarget(FightCaveNpcID.TZ_KIH_1, 4),
+                    new KillTarget(FightCaveNpcID.TZ_KIH_2, 4),
                     new KillTarget(FightCaveNpcID.KET_ZEK_1, 5)
                 ))
                 .currentWaveMessages(List.of(
@@ -700,7 +700,8 @@ public class RegularWaveData {
                     "Kill the 45, block the 180 with 22s",
                     "At the end of the wave eat up to full"
                 )).nextWaveMessages(List.of(
-                    "Run towards tile 2 and kill the bat",
+                    "Heal to full",
+                    "Run towards tile 2 and kill the bat as quickly as possible",
                     "After killing the bat run into tick-eat range of the 360"
                 ))
                 .requiresLogout()
@@ -726,18 +727,12 @@ public class RegularWaveData {
                     "Run towards tile 2 and kill the bat",
                     "After killing the bat, quickly get within tick-eat range of the 360"
                 ))
-                .nextWaveMessages(List.of(
-                "Before killing the last 22, eat up to ~20hp"
-                ))
                 .build());
 
         waveTileMap.put(51, new FightCaveWave.Builder(
                 List.of(
                     new Point(2384, 5062),
-                    new Point(2384, 5081),
-                    new Point(2385, 5081),
-                    new Point(2385, 5095),
-                    new Point(2384, 5100)
+                    new Point(2384, 5081)
                 ))
                 .killOrder(List.of(
                     new KillTarget(FightCaveNpcID.TZ_KIH_1),
@@ -752,12 +747,14 @@ public class RegularWaveData {
                     "Kill the first 45/22s",
                     "Kill the second 45 and use the 22s to block the 180"
                 ))
+                .nextWaveMessages(List.of("~20hp"))
+                .requiresLogout()
                 .build());
 
         waveTileMap.put(52, new FightCaveWave.Builder(
                 List.of(
+                    new Point(2400, 5088),
                     new Point(2384, 5100),
-                    new Point(2384, 5097),
                     new Point(2372, 5098),
                     new Point(2384, 5095)
                 ))
@@ -828,8 +825,7 @@ public class RegularWaveData {
                 List.of(
                     new Point(2400, 5088),
                     new Point(2384, 5062),
-                    new Point(2384, 5081),
-                    new Point(2375, 5098)
+                    new Point(2384, 5081)
                 ))
                 .killOrder(List.of(
                     new KillTarget(FightCaveNpcID.TZ_KIH_1),
@@ -838,20 +834,22 @@ public class RegularWaveData {
                     new KillTarget(FightCaveNpcID.YT_MEJKOT_1, 4),
                     new KillTarget(FightCaveNpcID.KET_ZEK_1, 5)
                 ))
+                .currentWaveMessages(List.of("~15-20hp"))
                 .nextWaveMessages(List.of(
-                    "P-neck wave",
-                    "As soon as the 360 attacks run towards the corner (TILE 3)",
-                    "After killing the 360, FIRST EAT, then run towards tile 4",
-                    "Kill the 45 and leave the 22s to block the 180"
+                        "P-neck wave",
+                        "As soon as the 360 attacks run towards the corner (TILE 3)",
+                        "After killing the 360, FIRST EAT, then run towards tile 4",
+                        "Kill the 45 and leave the 22s to block the 180"
                 ))
                 .requiresLogout()
                 .build());
-
+        
         waveTileMap.put(56, new FightCaveWave.Builder(
                 List.of(
                     new Point(2400, 5088),
                     new Point(2372, 5098),
-                    new Point(2384, 5095)
+                    new Point(2384, 5095),
+                    new Point(2374, 5098)
                 ))
                 .killOrder(List.of(
                     new KillTarget(FightCaveNpcID.KET_ZEK_1),
