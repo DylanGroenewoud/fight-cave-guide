@@ -80,7 +80,8 @@ public class NoPrayerFightCaveGuidePlugin extends Plugin
 	}
 
 	@Override
-	protected void shutDown() {
+	protected void shutDown()
+	{
 		overlayManager.remove(fightCaveNpcKillOrderOverlay);
 		overlayManager.remove(fightCaveTileOverlay);
 		overlayManager.remove(statusOverlay);

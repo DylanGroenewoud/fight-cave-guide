@@ -21,7 +21,8 @@ import java.awt.*;
 import java.util.List;
 
 @Slf4j
-public class FightCaveTileOverlay extends OverlayPanel {
+public class FightCaveTileOverlay extends OverlayPanel
+{
     private final NoPrayerFightCaveGuidePlugin plugin;
 
     private final Client client;
@@ -29,7 +30,8 @@ public class FightCaveTileOverlay extends OverlayPanel {
     private final ShortestPathFinder shortestPathFinder;
 
     @Inject
-    public FightCaveTileOverlay(Client client, NoPrayerFightCaveGuidePlugin plugin) {
+    public FightCaveTileOverlay(Client client, NoPrayerFightCaveGuidePlugin plugin)
+    {
         this.plugin = plugin;
         this.client = client;
         this.shortestPathFinder = new ShortestPathFinder();
@@ -39,7 +41,8 @@ public class FightCaveTileOverlay extends OverlayPanel {
     }
 
     @Override
-    public Dimension render(Graphics2D graphics) {
+    public Dimension render(Graphics2D graphics)
+    {
         if (client.getLocalPlayer() == null || !plugin.isFightCavesActive()) {
             return null;
         }
@@ -73,7 +76,8 @@ public class FightCaveTileOverlay extends OverlayPanel {
         return null;
     }
 
-    private void drawWaveTiles(Graphics2D graphics, List<Point> coords, int plane) {
+    private void drawWaveTiles(Graphics2D graphics, List<Point> coords, int plane)
+    {
         for (int i = 0; i < coords.size(); i++) {
             Point p = coords.get(i);
 
@@ -151,7 +155,8 @@ public class FightCaveTileOverlay extends OverlayPanel {
         }
     }
 
-    private void drawWavePath(Graphics2D graphics, List<Point> coords, int plane, CollisionData collisionData, boolean isGray) {
+    private void drawWavePath(Graphics2D graphics, List<Point> coords, int plane, CollisionData collisionData, boolean isGray)
+    {
         List<WorldPoint> fullPath = new ArrayList<>();
 
         for (int i = 0; i < coords.size() - 1; i++) {

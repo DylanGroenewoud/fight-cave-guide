@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RegularWaveData {
+public class RegularWaveData
+{
     public static final Map<Integer, FightCaveWave> waveTileMap = new HashMap<>();
 
     static {
@@ -120,8 +121,8 @@ public class RegularWaveData {
                 .killOrder(List.of(
                     new KillTarget(FightCaveNpcID.TOK_XIL_1),
                     new KillTarget(FightCaveNpcID.TZ_KIH_1, 2),
-                    new KillTarget(FightCaveNpcID.TZ_KIH_1, 3),
-                    new KillTarget(FightCaveNpcID.TZ_KEK_2, 3),
+                    new KillTarget(FightCaveNpcID.TZ_KIH_2, 3),
+                    new KillTarget(FightCaveNpcID.TZ_KEK_1, 3),
                     new KillTarget(FightCaveNpcID.TZ_KEK_MINI, 3),
                     new KillTarget(FightCaveNpcID.TZ_KEK_MINI, 3)
                 ))

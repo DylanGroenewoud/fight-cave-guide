@@ -1,22 +1,30 @@
 package com.noprayerfightcaveguide;
 
-public class KillTarget {
+public class KillTarget
+{
     private final int npcId;
     private final int priority;
 
-    // Constructor with default priority = 1
-    public KillTarget(int npcId) {
+    public KillTarget(int npcId)
+    {
         this(npcId, 1);
     }
 
-    // Constructor with explicit priority
-    public KillTarget(int npcId, int priority) {
+    public KillTarget(int npcId, int priority)
+    {
         this.npcId = npcId;
         this.priority = priority;
     }
 
-    public int getNpcId() { return npcId; }
-    public int getPriority() { return priority; }
+    public int getNpcId()
+    {
+        return npcId;
+    }
+
+    public int getPriority()
+    {
+        return priority;
+    }
 }
 
 

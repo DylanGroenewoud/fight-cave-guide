@@ -1,7 +1,7 @@
 package com.noprayerfightcaveguide;
 
-public final class FightCaveNpcID {
-
+public final class FightCaveNpcID
+{
     // BAT
     public static final int TZ_KIH_1 = 3116;
     public static final int TZ_KIH_2 = 3117;

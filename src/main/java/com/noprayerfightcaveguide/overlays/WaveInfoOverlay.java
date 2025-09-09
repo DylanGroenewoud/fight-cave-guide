@@ -50,14 +50,12 @@ public class WaveInfoOverlay extends OverlayPanel
         List<ColoredText> waveTexts = new ArrayList<>();
         waveTexts.add(new ColoredText("Current wave: " + currentWaveNum, Color.WHITE));
 
-        if (currentWave != null)
-        {
+        if (currentWave != null) {
             currentWave.getCurrentWaveMessages().forEach(msg ->
                     waveTexts.add(new ColoredText("- " + msg, Color.WHITE))
             );
 
-            if (!currentWave.getNextWaveMessages().isEmpty())
-            {
+            if (!currentWave.getNextWaveMessages().isEmpty()) {
                 waveTexts.add(new ColoredText("", Color.WHITE)); // spacer
                 waveTexts.add(new ColoredText("Next wave (" + (currentWaveNum + 1) + "):", Color.WHITE));
                 currentWave.getNextWaveMessages().forEach(msg ->
@@ -82,10 +80,8 @@ public class WaveInfoOverlay extends OverlayPanel
         int padding = 20;
         int maxWidth = 450;
 
-        for (ColoredText ct : texts)
-        {
-            if (ct.text.trim().isEmpty())
-            {
+        for (ColoredText ct : texts) {
+            if (ct.text.trim().isEmpty()) {
                 panel.getChildren().add(LineComponent.builder().left(" ").build());
                 continue;
             }
@@ -106,8 +102,7 @@ public class WaveInfoOverlay extends OverlayPanel
         final String text;
         final Color color;
 
-        ColoredText(String text, Color color)
-        {
+        ColoredText(String text, Color color) {
             this.text = text;
             this.color = color != null ? color : Color.WHITE;
         }

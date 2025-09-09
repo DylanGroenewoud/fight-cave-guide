@@ -22,40 +22,34 @@ public class ShortestPathFinder
         allNodes.put(start, startNode);
         openSet.add(startNode);
 
-        while (!openSet.isEmpty())
-        {
+        while (!openSet.isEmpty()) {
             Node current = openSet.poll();
 
-            if (current.point.equals(goal))
-            {
+            if (current.point.equals(goal)) {
                 return reconstructPath(current);
             }
 
             closedSet.add(current.point);
 
-            for (int[] dir : DIRECTIONS)
-            {
+            for (int[] dir : DIRECTIONS) {
                 int dx = dir[0];
                 int dy = dir[1];
                 int x = current.point.getX() + dx;
                 int y = current.point.getY() + dy;
 
-                if (!canWalk(collisionData, current.point.getX(), current.point.getY(), dx, dy))
-                {
+                if (!canWalk(collisionData, current.point.getX(), current.point.getY(), dx, dy)) {
                     continue;
                 }
 
                 WorldPoint neighbor = new WorldPoint(x, y, current.point.getPlane());
-                if (closedSet.contains(neighbor))
-                {
+                if (closedSet.contains(neighbor)) {
                     continue;
                 }
 
                 int tentativeG = current.g + ((dx == 0 || dy == 0) ? 10 : 14); // Diagonal cost 14, straight 10
                 Node neighborNode = allNodes.getOrDefault(neighbor, new Node(neighbor));
 
-                if (tentativeG < neighborNode.g || !allNodes.containsKey(neighbor))
-                {
+                if (tentativeG < neighborNode.g || !allNodes.containsKey(neighbor)) {
                     neighborNode.g = tentativeG;
                     neighborNode.h = heuristic(neighbor, goal);
                     neighborNode.f = neighborNode.g + neighborNode.h;
@@ -66,7 +60,7 @@ public class ShortestPathFinder
             }
         }
 
-        return Collections.emptyList(); // No path found
+        return Collections.emptyList();
     }
 
     private boolean canWalk(CollisionData collisionData, int x, int y, int dx, int dy)
@@ -85,11 +79,11 @@ public class ShortestPathFinder
     private List<WorldPoint> reconstructPath(Node node)
     {
         List<WorldPoint> path = new ArrayList<>();
-        while (node != null)
-        {
+        while (node != null) {
             path.add(node.point);
             node = node.parent;
         }
+
         Collections.reverse(path);
         return path;
     }
@@ -107,8 +101,7 @@ public class ShortestPathFinder
             this.point = point;
         }
 
-        Node(WorldPoint point, Node parent, int g, int h)
-        {
+        Node(WorldPoint point, Node parent, int g, int h) {
             this.point = point;
             this.parent = parent;
             this.g = g;

@@ -44,7 +44,8 @@ public class StatusOverlay extends OverlayPanel
     }
 
     @Override
-    public Dimension render(Graphics2D graphics) {
+    public Dimension render(Graphics2D graphics)
+    {
         FontMetrics fm = graphics.getFontMetrics();
 
         if (plugin.isInTzhaarArea() && plugin.getEntrance() != null) {
@@ -60,7 +61,8 @@ public class StatusOverlay extends OverlayPanel
         return super.render(graphics);
     }
 
-    private void renderPreCaveMessages(FontMetrics fm) {
+    private void renderPreCaveMessages(FontMetrics fm)
+    {
         panelComponent.getChildren().clear();
         AtomicInteger longest = new AtomicInteger();
 
@@ -71,7 +73,8 @@ public class StatusOverlay extends OverlayPanel
         panelComponent.setPreferredSize(new Dimension(longest.get() + 10, height)); // +10 padding
     }
 
-    private void renderSpawnPredictorMessage(FontMetrics fm, AtomicInteger longest) {
+    private void renderSpawnPredictorMessage(FontMetrics fm, AtomicInteger longest)
+    {
         Optional<Plugin> fcSpawnPlugin = pluginManager.getPlugins().stream()
                 .filter(p -> p.getClass().getSimpleName().equals("SpawnPredictorPlugin"))
                 .findFirst();
@@ -105,7 +108,8 @@ public class StatusOverlay extends OverlayPanel
         });
     }
 
-    private void renderGroundHiderMessage(FontMetrics fm, AtomicInteger longest) {
+    private void renderGroundHiderMessage(FontMetrics fm, AtomicInteger longest)
+    {
         Optional<Plugin> groundHiderPlugin = pluginManager.getPlugins().stream()
                 .filter(p -> p.getClass().getSimpleName().equals("ObjectHiderPlugin"))
                 .findFirst();
@@ -143,7 +147,8 @@ public class StatusOverlay extends OverlayPanel
         });
     }
 
-    private void renderInCaveMessages(FontMetrics fm) {
+    private void renderInCaveMessages(FontMetrics fm)
+    {
         panelComponent.getChildren().clear();
         int longest = 0;
 

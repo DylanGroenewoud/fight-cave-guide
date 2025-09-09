@@ -19,7 +19,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class FightCaveNpcKillOrderOverlay extends OverlayPanel {
+public class FightCaveNpcKillOrderOverlay extends OverlayPanel
+{
     private final NoPrayerFightCaveGuidePlugin plugin;
 
     private final Client client;
@@ -28,7 +29,8 @@ public class FightCaveNpcKillOrderOverlay extends OverlayPanel {
     private int lastWave = -1;
 
     @Inject
-    public FightCaveNpcKillOrderOverlay(Client client, NoPrayerFightCaveGuidePlugin plugin, PluginConfig config) {
+    public FightCaveNpcKillOrderOverlay(Client client, NoPrayerFightCaveGuidePlugin plugin, PluginConfig config)
+    {
         this.plugin = plugin;
         this.client = client;
         this.config = config;
@@ -38,7 +40,8 @@ public class FightCaveNpcKillOrderOverlay extends OverlayPanel {
     }
 
     @Override
-    public Dimension render(Graphics2D graphics) {
+    public Dimension render(Graphics2D graphics)
+    {
         if (!plugin.isFightCavesActive()) {
             return null;
         }
@@ -59,7 +62,8 @@ public class FightCaveNpcKillOrderOverlay extends OverlayPanel {
         return null;
     }
 
-    private void renderKillOrder(Graphics2D graphics, FightCaveWave wave) {
+    private void renderKillOrder(Graphics2D graphics, FightCaveWave wave)
+    {
         if (wave == null) return;
 
         IndexedObjectSet<NPC> npcs = (IndexedObjectSet<NPC>) client.getTopLevelWorldView().npcs();
@@ -98,10 +102,10 @@ public class FightCaveNpcKillOrderOverlay extends OverlayPanel {
         }
     }
 
-    private void resetKillOrder(FightCaveWave wave) {
+    private void resetKillOrder(FightCaveWave wave)
+    {
         if (wave == null) return;
 
-        // Reset priority for the new wave
         currentPriority = wave.getKillOrder().stream()
                 .mapToInt(KillTarget::getPriority)
                 .min()

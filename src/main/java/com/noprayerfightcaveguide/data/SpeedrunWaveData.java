@@ -6,7 +6,8 @@ import java.util.*;
 import java.awt.*;
 import java.util.List;
 
-public class SpeedrunWaveData {
+public class SpeedrunWaveData
+{
     public static final Map<Integer, FightCaveWave> waveTileMap = new HashMap<>();
 
     static {

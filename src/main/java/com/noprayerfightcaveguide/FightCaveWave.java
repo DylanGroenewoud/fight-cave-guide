@@ -6,7 +6,8 @@ import java.awt.Point;
 import java.util.Collections;
 import java.util.List;
 
-public class FightCaveWave {
+public class FightCaveWave
+{
     @Getter
     private final List<Point> coords;
 
@@ -22,7 +23,8 @@ public class FightCaveWave {
     private final boolean requiresLogout;
     private final boolean requiresAutoRetaliate;
 
-    private FightCaveWave(Builder builder) {
+    private FightCaveWave(Builder builder)
+    {
         this.coords = builder.coords;
         this.currentWaveMessages = builder.currentWaveMessages != null ? builder.currentWaveMessages : Collections.emptyList();
         this.nextWaveMessages = builder.nextWaveMessages != null ? builder.nextWaveMessages : Collections.emptyList();
@@ -31,10 +33,18 @@ public class FightCaveWave {
         this.killOrder = builder.killOrder != null ? builder.killOrder : Collections.emptyList(); // initialize
     }
 
-    public boolean requiresLogout() { return requiresLogout; }
-    public boolean requiresAutoRetaliate() { return requiresAutoRetaliate; }
+    public boolean requiresLogout()
+    {
+        return requiresLogout;
+    }
 
-    public static class Builder {
+    public boolean requiresAutoRetaliate()
+    {
+        return requiresAutoRetaliate;
+    }
+
+    public static class Builder
+    {
         private final List<Point> coords;
         private List<String> currentWaveMessages;
         private List<String> nextWaveMessages;
@@ -42,36 +52,43 @@ public class FightCaveWave {
         private boolean requiresAutoRetaliate = false;
         private List<KillTarget> killOrder;
 
-        public Builder(List<Point> coords) {
+        public Builder(List<Point> coords)
+        {
             this.coords = coords;
         }
 
-        public Builder currentWaveMessages(List<String> currentWaveMessages) {
+        public Builder currentWaveMessages(List<String> currentWaveMessages)
+        {
             this.currentWaveMessages = currentWaveMessages;
             return this;
         }
 
-        public Builder nextWaveMessages(List<String> nextWaveMessages) {
+        public Builder nextWaveMessages(List<String> nextWaveMessages)
+        {
             this.nextWaveMessages = nextWaveMessages;
             return this;
         }
 
-        public Builder requiresLogout() {
+        public Builder requiresLogout()
+        {
             this.requiresLogout = true;
             return this;
         }
 
-        public Builder requiresAutoRetaliate() {
+        public Builder requiresAutoRetaliate()
+        {
             this.requiresAutoRetaliate = true;
             return this;
         }
 
-        public Builder killOrder(List<KillTarget> killOrder) {
+        public Builder killOrder(List<KillTarget> killOrder)
+        {
             this.killOrder = killOrder;
             return this;
         }
 
-        public FightCaveWave build() {
+        public FightCaveWave build()
+        {
             return new FightCaveWave(this);
         }
     }
